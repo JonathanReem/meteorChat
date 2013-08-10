@@ -1,0 +1,87 @@
+<head>
+	<title>Meteor Chat</title>
+</head>
+
+<body>
+	<div class = "row">
+		{{> rooms}}
+		{{renderPage}}
+	</div>
+</body>
+
+<template name = "home">
+	<div class = "span6">
+		<h1>Welcome to Meteor Chat</h1>
+		<p>Please select a room to chat in, or create a new one.</p>
+	</div>
+</template>
+
+<template name = "rooms">
+	<form name = "new_row">
+		<table id = "rooms" class = "table table-striped span6">
+			<thread>
+				<tr>
+					<th>Room Name</th>
+					<th>Members Online</th>
+					<th>Latest Activity</th>
+				</tr>
+			</thread>
+			<tbody>
+				{{#each rooms}}
+					<tr>
+						<td><a href = "/rooms/{{_id}}">{{name}}</a></td>
+						<td>{{members}}</td>
+						<td>{{last_activity}}</td>
+					</tr>
+				{{/each}}
+				<tr>
+					<td>
+						<input type = "text" name = "name" id = "new_room_name" placeholder = "Enter your chatroom name"/>
+						<button type = "submit" class = "btn btn-primary pull-right" id = "add_room">
+							<i class = "icon-plus"></i> Create Room
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</template>
+
+<template name = "room">
+	<div class = "span6">
+		{{#with room}}
+			<h1>Welcome to {{name}}</h1>
+			<table id = "chat" class = "table table-striped">
+				<tbody>
+					{{#each messages}}
+						<tr>
+							<td>{{author}} :</td>
+							<td>{{text}}</td>
+						</tr>
+					{{/each}}
+					<tr>
+						{{> user_info}}
+						<td colspan = "2">
+							<form name = "new_message">
+								<input type = "text" name = "text" id = "new_message" placeholder = "Message"/>
+								<button type = "submit" class = "btn btn-primary pull-right">
+									<i class = "icon-envelope"></i> Send Message
+								</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		{{/with}}
+	</div>
+</template>
+
+<template name = "user_info">
+	{{#if username}}
+		<td><h5>{{username}}</h5></td>
+	{{else}}
+		<td>
+			<input type = "text" name = "username_input" id = "username_input" placeholder = "Name - then hit Enter"/>
+		</td>
+	{{/if}}
+</template>
